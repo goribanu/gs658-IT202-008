@@ -21,10 +21,12 @@ function printOdds($arr, $arrayNumber)
 
     echo "Output Array: ";
     // Start Solution Edits
-    // gs658 2-17-24 explanation of solution
-    // code that iterates through an array
-    // code that handles the necessary check
-    // code that prints the value
+    // gs658 2-17-24 : In order to solve this problem, I will create an array
+    // and add all the odd elements from the array in it. Then, I will likely
+    // use the implode() function in order to combine all the elements into
+    // one single string in one line separated by commas.
+    // To check if the element is odd, I will have to use a conditional, if 
+    // the element mod 2 is equal to 1, then add the element.
 
     // End Solution Edits
     echo "<br>______________________________________<br>";
