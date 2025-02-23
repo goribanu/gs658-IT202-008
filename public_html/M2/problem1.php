@@ -19,8 +19,15 @@ function printOdds($arr, $arrayNumber)
     // Step 2: Add/commit your outline of comments (required for full credit)
     // Step 3: Add code to solve the problem (add/commit as needed)
 
-    echo "Output Array: ";
-    // Start Solution Edits
+    $odds = [];
+    foreach($arr as $num) {
+        if ($num % 2 == 1) {
+            $odds[] = $num;
+        }
+    }
+    
+    echo "Output Array: " + implode(", ", $odds);
+ 
     // gs658 2-17-24 : In order to solve this problem, I will create an array
     // and add all the odd elements from the array in it. Then, I will likely
     // use the implode() function in order to combine all the elements into
@@ -28,7 +35,6 @@ function printOdds($arr, $arrayNumber)
     // To check if the element is odd, I will have to use a conditional, if 
     // the element mod 2 is equal to 1, then add the element.
 
-    // End Solution Edits
     echo "<br>______________________________________<br>";
 }
 
