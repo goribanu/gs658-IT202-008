@@ -16,17 +16,36 @@ function bePositive($arr, $arrayNumber)
     // Only make edits between the designated "Start" and "End" comments
     printArrayInfoMixed($arr, $arrayNumber);
 
-    // Challenge 1: Make each value positive
-    // Challenge 2: Convert the values back to their original data type and assign it to the proper slot of the `output` array
-    // Step 1: sketch out plan using comments (include ucid and date)
-    // Step 2: Add/commit your outline of comments (required for full credit)
-    // Step 3: Add code to solve the problem (add/commit as needed)
-
     $output = array_fill(0, count($arr), null); // Initialize output array
-    // Start Solution Edits
+    // gs658 2-22-25 : Challenge 1 - In order to solve this problem, I will
+    // use the abs() function in order to take the positive value of each
+    // element. For the strings, I will need to convert them into integers
+    // first, then take the abs(). Challenge 2 - I'll convert each element
+    // back to its og data type by checking the original value to see if
+    // it was an int, float, or a string. Based on these conditions, I will
+    // convert it back to the og data type and assign it back to its og
+    // position in the array.
 
+    foreach ($arr as $key => $value) {
+        if (is_string($value)) {
+            if (is_numeric($value)) {
+                if (strpos($value, '.') !== false) {
+                    $value = (float)$value;
+                } else {
+                    $value = (int)$value;
+                }
+            }
+        }
+        $posValue = abs($value);
+        if (is_int($value)) {
+            $output[$key] = intval($posValue);
+        } elseif (is_float($value)) {
+            $output[$key] = floatval($posValue);
+        } elseif (is_string($arr[$key])) {
+                $output[$key] = (string)$output[$key];
+        }
+    }
 
-    // End Solution Edits
     echo "<p>Output: </p>";
     printOutputWithType($output);
     echo "<br>______________________________________<br>";

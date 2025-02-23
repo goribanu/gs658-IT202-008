@@ -17,24 +17,20 @@ function sumValues($arr, $arrayNumber)
     // Only make edits between the designated "Start" and "End" comments
     printArrayInfoDouble($arr, $arrayNumber);
 
-    // Challenge 1: Sum all the values of the passed in array and assign to `total`
-    // Challenge 2: Have the sum be represented as a number with exactly 2 decimal places, assign to `modifiedTotal`
-    // Example: 0.1 would be shown as 0.10, 1 would be shown as 1.00, etc
-    // Step 1: sketch out plan using comments (include ucid and date)
-    // Step 2: Add/commit your outline of comments (required for full credit)
-    // Step 3: Add code to solve the problem (add/commit as needed)
+    // gs658 2-22-25 : Challenge 1 - In order to solve this problem, I will
+    // create a variable called 'total' and set it equal to the sum of all
+    // the elements in the array. I will use the 'array_sum' function to sum
+    // all the elements. Challenge 2 - I will create another variable called
+    // 'modifiedTotal and set it equal to the sum. I will use the
+    // number_format() method to convert the sum to a number with 2 decimal 
+    // places.
 
     $total = 0;
-    // Start Solution Edits
-    // Solve Challenge 1 here
+    $total = array_sum($arr);
 
-
-
-
-    // Solve Challenge 2 here
     $modifiedTotal = "?";
+    $modifiedTotal = number_format($total, 2);
 
-    // End Solution Edits
     echo "<p>Total Raw Value: {$total}</p>";
     echo "<p>Total Modified Value: {$modifiedTotal}</p>";
     echo "<br>______________________________________<br>";

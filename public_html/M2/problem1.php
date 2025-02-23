@@ -14,10 +14,12 @@ function printOdds($arr, $arrayNumber)
     // Only make edits between the designated "Start" and "End" comments
     printArrayInfo($arr, $arrayNumber);
 
-    // Challenge: Print odd values only in a single line separated by commas
-    // Step 1: sketch out plan using comments (include ucid and date)
-    // Step 2: Add/commit your outline of comments (required for full credit)
-    // Step 3: Add code to solve the problem (add/commit as needed)
+    // gs658 2-17-25 : In order to solve this problem, I will create an array
+    // and add all the odd elements from the array in it. Then, I will likely
+    // use the implode() function in order to combine all the elements into
+    // one single string in one line separated by commas.
+    // To check if the element is odd, I will have to use a conditional, if 
+    // the element mod 2 is equal to 1, then add the element.
 
     $odds = [];
     foreach($arr as $num) {
@@ -25,15 +27,8 @@ function printOdds($arr, $arrayNumber)
             $odds[] = $num;
         }
     }
-    
-    echo "Output Array: " + implode(", ", $odds);
- 
-    // gs658 2-17-24 : In order to solve this problem, I will create an array
-    // and add all the odd elements from the array in it. Then, I will likely
-    // use the implode() function in order to combine all the elements into
-    // one single string in one line separated by commas.
-    // To check if the element is odd, I will have to use a conditional, if 
-    // the element mod 2 is equal to 1, then add the element.
+
+    echo "Output Array: " . implode(", ", $odds);
 
     echo "<br>______________________________________<br>";
 }
