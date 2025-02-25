@@ -69,9 +69,83 @@ Requirements:
 </script>
 
 <script>
-    /* Solve the button logic here by finding and attaching an appropriate event listener and logic*/
+/* gs658 2-24-25: In order to solve the challenge, I will use flexbox to get the
+layout properties for the sidebars and main content to meet the requirements.
+Using .querySelector() to get the button and sidebar stuff. */
+
+const leftButton = document.querySelector('#left-sidebar button');
+const rightButton = document.querySelector('#right-sidebar button');
+const leftSidebar = document.querySelector('#left-sidebar');
+const rightSidebar = document.querySelector('#right-sidebar');
+
+leftButton.addEventListener('click', function() {
+    leftSidebar.classList.toggle('collapsed');
+    leftButton.innerHTML = leftSidebar.classList.contains('collapsed') ? '&gt;' : '&lt;';
+});
+
+rightButton.addEventListener('click', function() {
+    rightSidebar.classList.toggle('collapsed');
+    rightButton.innerHTML = rightSidebar.classList.contains('collapsed') ? '&lt;' : '&gt;';
+});
 </script>
 
 <style>
-    /* You're free to make whatever edits you need here, just don't override anything in the styles.css */
+/* gs658 2-24-25: I will need to use properties such as overflow: hidden in order
+to hide the content when the sidebars are collapsed, and make sure buttons are
+visible and working even in collapse. */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .container {
+        display: flex;
+        flex: 1;
+        height: calc(100vh - 60px);
+    }
+
+    aside {
+        width: 15%;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
+
+    #left-sidebar {
+        border-right: 1px;
+    }
+
+    #right-sidebar {
+        border-left: 1px;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+    }
+
+    aside {
+        width: 15%;
+        transition: width 0.3s ease;
+    }
+
+    aside button {
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    aside.collapsed {
+        width: 0;
+    }
+
 </style>
