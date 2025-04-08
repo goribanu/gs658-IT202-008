@@ -1,5 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__."/../../lib/functions.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -33,12 +34,14 @@ if (
 
     $email = se($_POST, "email", "", false);
     $password = se($_POST, "password", "", false);
-    $confirm = se($_POST, "confirm", "", false);;
+    $confirm = se($_POST, "confirm", "", false);
     // TODO 3: validate/use
     $hasError = false;
     // Sanitize and validate email
-    $email = sanitize_email($email);
-    if (!is_valid_email($email)) {
+    //$email = sanitize_email($email);
+    //if (!is_valid_email($email)) {
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Invalid email address";
         $hasError = true;
     }
@@ -69,7 +72,6 @@ if (
 
     if (!$hasError) {
         //echo "Welcome, $email";
-        // TODO 4
         // comment out the "welcome" line above
         // TODO 4: Hash password before storing
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
