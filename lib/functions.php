@@ -1,4 +1,4 @@
-<?php
+]<?php
 //TODO 1: require db.php
 require(__DIR__ . "/db.php");
 
