@@ -35,7 +35,7 @@ function transformText($arr, $arrayNumber) {
     foreach ($arr as $index => $text) {
         $text = preg_replace("/[^a-zA-Z0-9\s]/", "", $text);
         $text = ucwords(strtolower($text));
-        $text = preg_replace('/\s+/', ' ', trim($text));
+        $text = preg_replace("/\s+/", " ", trim($text));
         $placeholderForModifiedPhrase = $text;
         printStringTransformations($index, $placeholderForModifiedPhrase, $placeholderForMiddleCharacters);
     }
