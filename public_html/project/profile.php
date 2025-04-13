@@ -52,9 +52,10 @@ if (isset($_POST["save"])) {
     $confirm_password = se($_POST, "confirmPassword", null, false);
     if (!empty($current_password) && !empty($new_password) && !empty($confirm_password)) {
         if ($new_password === $confirm_password) {
+            $isValid = true;
             if (!is_valid_password($new_password)) {
                 flash("New Password too short", "danger");
-                return;
+                $isValid = false;
             }
             //TODO validate current
             $stmt = $db->prepare("SELECT password from Users where id = :id");
