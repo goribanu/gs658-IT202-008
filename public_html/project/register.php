@@ -22,6 +22,9 @@ reset_session();
     <input type="submit" value="Register" />
 </form>
 <script>
+    function isValidPassword(pw) {
+        return pw.length >= 8;
+    }
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
