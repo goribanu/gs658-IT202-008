@@ -1,5 +1,5 @@
 -- Active: 1738546219797@@db.ethereallab.app@3306@gs658
-CREATE TABLE IF NOT EXISTS `S25-010-Users` (
+CREATE TABLE IF NOT EXISTS `Users` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(100) NOT NULL,
     `password` VARCHAR(60) NOT NULL,
