@@ -14,3 +14,7 @@ function flash(message = "", color = "info") {
     //add the element to the DOM (if we don't it merely exists in memory)
     flash.appendChild(outerDiv);
 }
+
+function isValidPassword(val){
+    return val && val.leength >=8;
+}
