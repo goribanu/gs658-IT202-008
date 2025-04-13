@@ -57,6 +57,7 @@ if (isset($_POST["save"])) {
                 flash("New Password too short", "danger");
                 $isValid = false;
             }
+            if ($isValid){
             //TODO validate current
             $stmt = $db->prepare("SELECT password from Users where id = :id");
             try {
@@ -79,6 +80,7 @@ if (isset($_POST["save"])) {
             } catch (Exception $e) {
                 echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
             }
+        }
         } else {
             flash("New passwords don't match", "warning");
         }
