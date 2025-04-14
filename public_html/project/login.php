@@ -72,7 +72,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $hasError = true;
     }
     if (!$hasError) {
-        //TODO 4
+        //TODO 4 
         $db = getDB();
         $stmt = $db->prepare("SELECT id, email, username, password from Users where email = :email or username=:email");
         try {
@@ -83,6 +83,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     $hash = $user["password"];
                     unset($user["password"]);
                     if (password_verify($password, $hash)) {
+                        echo "Welcome $email";
                         $_SESSION["user"] = $user;
                         try {
                             //lookup potential roles
