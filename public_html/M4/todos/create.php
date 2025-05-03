@@ -29,7 +29,7 @@ if (empty($diff)) {
 
     $date = DateTime::createFromFormat('Y-m-d', $due);
     if (!$date || $date->format('Y-m-d') !== $due) {
-        echo "Due date must be in YYYY-MM-DD format.<br>";
+        echo "Due date must be in MM-DD-YYYY format.<br>";
         $is_valid = false;
     }
 
