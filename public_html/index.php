@@ -1,1 +1,1 @@
-<?php echo "Welcome to Gori's IT202 site" ?>
+<?php echo "It works!";?>
