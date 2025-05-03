@@ -12,8 +12,14 @@ if (isset($_POST["id"])) {
     Add an extra clause to update only if the complete field of the record is not set.
     https://phpdelusions.net/pdo
     */
-    $query = ""; // edit this
-    $params = []; // apply mapping
+    /* gs658 - 5/2/25 - The query marks tasks as completed by setting the completed
+    field to the current date using NOW(). It also ensures that only tasks that 
+    haven’t been marked as completed yet, using completed IS NULL, are updated, 
+    preventing any unnecessary updates.
+    */
+    $query = "UPDATE M4_Todos SET completed = NOW(), is_complete = 1 WHERE id
+     = :id AND completed IS NULL";
+    $params = [":id" => $id];
     
     try {
         $stmt = $db->prepare($query);
@@ -35,7 +41,12 @@ For Actions, this isn't part of the query and there's nothing special to select 
 Filter the results where the todo item is NOT completed and order the results by those due the soonest.
 No limit is required.
 */
-$query = ""; // edit this
+/* gs658 - 5/2/25 - This query will filter tasks that are not completed using
+completed IS NULL and DATEDIFF(due, CURDATE()) to calculate the days_offset.
+ORDER BY due ASC will order the tasks by the nearest due date.
+*/
+$query = "SELECT id, task, due, assigned, DATEDIFF(due, CURDATE()) AS 
+days_offset FROM M4_Todos WHERE completed IS NULL ORDER BY due ASC";
 $results = [];
 try {
     $stmt = $db->prepare($query);
