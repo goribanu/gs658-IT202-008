@@ -8,6 +8,17 @@ if (!$user_id) {
     redirect("login.php");
 }
 
+// Clear Watchlist option
+if (isset($_POST["clear_watchlist"])) {
+    $user_id = get_user_id();
+    if ($user_id > 0) {
+        $db = getDB();
+        $stmt = $db->prepare("DELETE FROM Watchlist WHERE user_id = :uid");
+        $stmt->execute([":uid" => $user_id]);
+        flash("Watchlist cleared successfully.", "info");
+    }
+}
+
 // Fetch user's watchlist
 $db = getDB();
 $results = [];
@@ -28,6 +39,10 @@ try {
 <div class="main-container">
     <h1>Your Watchlist</h1>
     <p><strong>Total Movies:</strong> <?= count($results) ?></p>
+    <form method="POST" onsubmit="return confirm('Are you sure you want to clear your entire watchlist?');">
+        <input type="submit" name="clear_watchlist" value="Clear Watchlist" class="btn btn-danger" />
+    </form>
+    <br>
 
     <?php if (!empty($results)): ?>
         <table>
