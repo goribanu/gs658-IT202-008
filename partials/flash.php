@@ -25,18 +25,18 @@
 </script>
 <style>
     .alert-success {
-        background-color: green
-    }
+    background-color: green
+}
 
-    .alert-warning {
-        background-color: yellow;
-    }
+.alert-warning {
+    background-color: rgb(213, 213, 0);
+}
 
-    .alert-danger {
-        background-color: red;
-    }
+.alert-danger {
+    background-color: red;
+}
 
-    .alert-info {
-        background-color: teal;
-    }
+.alert-info {
+    background-color: rgb(127, 230, 230);
+}
 </style>

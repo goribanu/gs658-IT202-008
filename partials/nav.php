@@ -31,6 +31,9 @@ session_start();
     <ul>
         <?php if (is_logged_in()) : ?>
             <li><a href="<?php echo get_url('home.php'); ?>">Home</a></li>
+            <li><a href="<?php echo get_url('movie-list.php'); ?>">List Movies</a></li>
+            <li><a href="<?php echo get_url('movie-search.php'); ?>">Search Movie</a></li>
+            <li><a href="<?php echo get_url('movie-watchlist.php'); ?>">My Watchlist</a></li>
             <li><a href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
         <?php endif; ?>
         <?php if (!is_logged_in()) : ?>
@@ -38,6 +41,8 @@ session_start();
             <li><a href="<?php echo get_url('register.php'); ?>">Register</a></li>
         <?php endif; ?>
         <?php if (has_role("Admin")) : ?>
+            <li><a href="<?php echo get_url('movie-admin-watchlist.php'); ?>">Admin Watchlist</a></li>
+            <li><a href="<?php echo get_url('movie-add.php'); ?>">Add Movie</a></li>
             <li><a href="<?php echo get_url('admin/create_role.php'); ?>">Create Role</a></li>
             <li><a href="<?php echo get_url('admin/list_roles.php'); ?>">List Roles</a></li>
             <li><a href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>

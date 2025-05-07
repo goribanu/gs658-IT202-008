@@ -45,3 +45,19 @@ function get_user_id()
     }
     return false;
 }
+function get_roles_string()
+{
+    if (is_logged_in()) {
+        $roles = $_SESSION["user"]["roles"] ?? [];
+        if (!empty($roles)) {
+            // Extract role names from the array of associative arrays
+            $roleNames = array_map(fn($r) => $r["name"], $roles);
+            return implode(", ", $roleNames); // e.g. "Admin, User"
+        }
+    }
+    return "No role";
+}
+function redirect($url) {
+    header("Location: $url");
+    exit;
+}

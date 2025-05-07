@@ -2,6 +2,7 @@
 require_once(__DIR__ . "/../../partials/nav.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
+<div class="header-title">CINEPEAK MOVIES</div>
     <div>
         <label for="email">Email/Username</label>
         <input type="text" name="email" required />
