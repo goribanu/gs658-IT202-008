@@ -3,7 +3,7 @@
 }
 
 .alert-warning {
-    background-color: yellow;
+    background-color: rgb(213, 213, 0);
 }
 
 .alert-danger {
@@ -11,13 +11,89 @@
 }
 
 .alert-info {
-    background-color: teal;
+    background-color: rgb(127, 230, 230);
 }
-nav li{display: inline; background-color: rgb(65, 57, 73);}
-nav li a{color: #b5c6e1}
-input{border-radius: 5px;}
-body{
-    background-color: #214e96;
-    color: rgb(185, 194, 225);
 
+.alert {
+    color: rgb(0, 0, 0);
+}
+
+nav li {
+    display: inline;
+    background-color: rgb(65, 57, 73);
+}
+
+nav li a {
+    color: #b5c6e1
+}
+
+input {
+    border-radius: 5px;
+}
+
+body {
+    text-align: center;
+    color: white;
+    background-color: #121212;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #111;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    border: 1px solid #444;
+    text-align: left;
+}
+
+p {
+    margin-top: 10px;
+    color: #ccc;
+}
+
+.header-title {
+    font-size: 3em;
+    margin-top: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.clock {
+    font-size: 2.5em;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.quote {
+    margin-top: 20px;
+    font-style: italic;
+    color: #aaa;
+    font-size: 1.2em;
+}
+
+.welcome-msg {
+    margin-top: 30px;
+    font-size: 1.5em;
+    font-weight: normal;
 }
