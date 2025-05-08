@@ -17,9 +17,9 @@ require(__DIR__ . "/../../partials/nav.php");
 
     <script>
         function validate(form) {
-            // implement JavaScript validation
-            //ensure it returns false for previously existing movies and true 
-            // if successfully added
+            // implementing JavaScript validation
+            // gs658 - 5/1/25 - ensures it returns false for previously 
+            // existing movies and true if successfully added
             let isValid = true;
             const title = form.title.value;
             const year = form.year.value;
@@ -37,13 +37,13 @@ require(__DIR__ . "/../../partials/nav.php");
     </script>
 </div>
 <?php
-// PHP Code
+// gs658 - 5/1/25 - PHP Code validation
 if (isset($_POST["title"]) && isset($_POST["year"])) {
     $title = se($_POST, "title", "", false); //$_POST["title"];
     $year = se($_POST, "year", "", false); //$_POST["year"];
     $rating = se($_POST, "rating", "", false); //$_POST["rating"];
     $is_api = 0; // 0 for custom form
-    $plot = "";
+    $plot = ""; // empty plot
 
     $hasError = false;
     if (empty($title)) {

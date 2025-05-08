@@ -20,7 +20,7 @@ $stmt->bindValue(":id", $movie_id, PDO::PARAM_INT);
 try {
     $stmt->execute();
     $movie = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+    // handles invalid / missing IDS
     if (!$movie) {
         flash("Movie not found", "danger");
         redirect("movie-list.php");
@@ -35,7 +35,7 @@ try {
 
 <div class="container-fluid">
     <h1>Movie Details</h1>
-
+    <!-- generates movie output -->
     <p><strong>Title:</strong> <?= htmlspecialchars($movie['title']) ?></p>
     <p><strong>Year:</strong> <?= htmlspecialchars($movie['year']) ?></p>
     <p><strong>Rating:</strong> <?= htmlspecialchars($movie['rating']) ?></p>
