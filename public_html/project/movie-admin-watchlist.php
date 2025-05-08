@@ -7,8 +7,33 @@ if (!has_role("Admin")) {
 }
 
 $db = getDB();
-$results = [];
 
+// ✅ Handle Remove from Watchlist
+if (isset($_POST["remove_watchlist"]) && isset($_POST["user_id"]) && isset($_POST["movie_title"])) {
+    $user_id = (int)$_POST["user_id"];
+    $movie_title = trim($_POST["movie_title"]);
+
+    // Get the movie ID based on the title
+    $stmt = $db->prepare("SELECT id FROM Movies WHERE title = :title");
+    $stmt->execute([":title" => $movie_title]);
+    $movie = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($movie && isset($movie["id"])) {
+        $movie_id = (int)$movie["id"];
+        $delete = $db->prepare("DELETE FROM Watchlist WHERE user_id = :uid AND movie_id = :mid");
+        $delete->execute([":uid" => $user_id, ":mid" => $movie_id]);
+        flash("Removed user from movie's watchlist", "success");
+    } else {
+        flash("Movie not found", "danger");
+    }
+
+    // Redirect to avoid form resubmission
+    header("Location: " . $_SERVER["REQUEST_URI"]);
+    exit;
+}
+
+// Filtering logic
+$results = [];
 $movie_title = trim($_GET["movie_title"] ?? "");
 $limit = (int)($_GET["limit"] ?? 10);
 $valid_limits = [5, 10, 25, 50];
