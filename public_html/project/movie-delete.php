@@ -8,7 +8,7 @@ if (!isset($_GET['id'])) {
     die();
 }
 
-$movie_id = $_GET['id'];
+$movie_id = $_GET['id']; // retrieves the movie ID from the query string
 
 $db = getDB();
 

@@ -26,7 +26,7 @@ nav li {
 nav li a {
     color: #b5c6e1
 }
-
+/* gs658 - 5/1/24 - Applies styling for filter/sort pages */
 input {
     border-radius: 5px;
 }
@@ -51,7 +51,7 @@ h1 {
     color: #fff;
     margin-bottom: 20px;
 }
-
+/* gs658 - 5/1/25 - Applies styling for movie list table */
 table {
     width: 100%;
     border-collapse: collapse;
