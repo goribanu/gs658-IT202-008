@@ -9,13 +9,12 @@ if (isset($_GET["title"])) {
 
     $data = [
         "s" => $_GET["title"],
-        "type" => "movie",
-        "apikey" => $apiKey // <-- key as query param, not a header
+        "type" => "movie"
     ];
-
+    
     $endpoint = "https://www.omdbapi.com";
-    $isRapidAPI = false; // <-- OMDB is not on RapidAPI
-    $results = get($endpoint, $apiKey, $data, $isRapidAPI); // null for key label
+    $results = get($endpoint, "OMDB_API_KEY", $data, false);
+    
 
     error_log("OMDB Response: " . var_export($results, true));
 
@@ -23,6 +22,7 @@ if (isset($_GET["title"])) {
         $results = json_decode($results["response"], true);
     } else {
         $results = [];
+        
     }
 }
 ?>

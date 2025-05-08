@@ -3,7 +3,10 @@
 $env_keys = ["OMDB_API_KEY"];
 $ini = @parse_ini_file(".env");
 
-$API_KEYS = [];
+$API_KEYS = [
+    "OMDB_API_KEY" => "5a599b6d"
+];
+
 foreach ($env_keys as $key) {
     if ($ini && isset($ini[$key])) {
         //load local .env file
