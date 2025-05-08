@@ -7,84 +7,91 @@ if (!has_role("Admin")) {
 }
 
 $db = getDB();
-
-// Handle removal from watchlist
-if (isset($_POST["remove_watchlist"]) && isset($_POST["user_id"]) && isset($_POST["movie_title"])) {
-    $user_id = (int)$_POST["user_id"];
-    $movie_title = $_POST["movie_title"];
-
-    // Get movie_id based on title (assuming titles are unique, otherwise use movie_id in the form)
-    $stmt = $db->prepare("SELECT id FROM Movies WHERE title = :title");
-    $stmt->execute([":title" => $movie_title]);
-    $movie = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($movie && isset($movie["id"])) {
-        $movie_id = (int)$movie["id"];
-        $delete = $db->prepare("DELETE FROM Watchlist WHERE user_id = :uid AND movie_id = :mid");
-        $delete->execute([":uid" => $user_id, ":mid" => $movie_id]);
-        flash("Removed movie from user's watchlist", "success");
-    } else {
-        flash("Movie not found", "danger");
-    }
-}
-
 $results = [];
 
-try {
-    $stmt = $db->prepare("
-        SELECT 
-            Users.id as user_id,
-            Users.username,
-            Movies.title,
-            Movies.year,
-            Movies.rating
-        FROM Watchlist
-        JOIN Users ON Watchlist.user_id = Users.id
-        JOIN Movies ON Watchlist.movie_id = Movies.id
-        ORDER BY Users.username ASC, Movies.title ASC
-    ");
-    $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    flash("Error loading admin watchlist: " . $e->getMessage(), "danger");
+$movie_title = trim($_GET["movie_title"] ?? "");
+$limit = (int)($_GET["limit"] ?? 10);
+$valid_limits = [5, 10, 25, 50];
+if (!in_array($limit, $valid_limits)) {
+    $limit = 10;
+}
+
+if (!empty($movie_title)) {
+    try {
+        $stmt = $db->prepare("
+            SELECT 
+                Users.id AS user_id,
+                Users.username,
+                Movies.id AS movie_id,
+                Movies.title,
+                Movies.year,
+                Movies.rating
+            FROM Watchlist
+            JOIN Users ON Watchlist.user_id = Users.id
+            JOIN Movies ON Watchlist.movie_id = Movies.id
+            WHERE Movies.title LIKE :title
+            ORDER BY Movies.title ASC, Users.username ASC
+            LIMIT :limit
+        ");
+        $stmt->bindValue(":title", "%$movie_title%", PDO::PARAM_STR);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        flash("Error searching watchlist: " . $e->getMessage(), "danger");
+    }
 }
 ?>
 
 <div class="container-fluid">
-    <h1>Admin View: User Watchlists</h1>
+    <h1>Admin View: Movie Watchlists</h1>
 
-    <?php
-    if (!empty($results)) {
+    <!-- Search + Filter Form -->
+    <form method="GET" class="mb-3">
+        <label for="movie_title">Movie Title:</label>
+        <input type="text" name="movie_title" value="<?= htmlspecialchars($movie_title) ?>" />
+
+        <label for="limit">User Limit:</label>
+        <select name="limit">
+            <?php foreach ($valid_limits as $opt): ?>
+                <option value="<?= $opt ?>" <?= $limit === $opt ? "selected" : "" ?>><?= $opt ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
+    </form>
+
+    <?php if (!empty($results)): ?>
+        <?php
         $grouped = [];
         foreach ($results as $row) {
-            $user_id = $row["user_id"];
-            if (!isset($grouped[$user_id])) {
-                $grouped[$user_id] = [
-                    "user_id" => $user_id,
-                    "username" => $row["username"],
-                    "movies" => []
+            $movie_id = $row["movie_id"];
+            if (!isset($grouped[$movie_id])) {
+                $grouped[$movie_id] = [
+                    "title" => $row["title"],
+                    "year" => $row["year"],
+                    "rating" => $row["rating"],
+                    "users" => []
                 ];
             }
-            $grouped[$user_id]["movies"][] = [
-                "title" => $row["title"],
-                "year" => $row["year"],
-                "rating" => $row["rating"]
+            $grouped[$movie_id]["users"][] = [
+                "user_id" => $row["user_id"],
+                "username" => $row["username"]
             ];
         }
 
-        foreach ($grouped as $uid => $data) {
-            $movieCount = count($data["movies"]);
-            echo "<h3>User: <a href='view-profile.php?id=" . urlencode($uid) . "'>" . htmlspecialchars($data["username"]) . "</a></h3>";
-            echo "(Total Movies: $movieCount)</h3>";
+        foreach ($grouped as $movie_id => $movie) {
+            $userCount = count($movie["users"]);
+            echo "<h3>Movie: " . htmlspecialchars($movie["title"]) . " ({$movie["year"]})</h3>";
+            echo "<p>Rating: " . htmlspecialchars($movie["rating"]) . " | Users in Watchlist: $userCount</p>";
             echo "<table border='1' cellpadding='8'>";
-            echo "<thead><tr><th>Title</th><th>Year</th><th>Rating</th><th>Watchlist</th></tr></thead><tbody>";
-            foreach ($data["movies"] as $movie) {
+            echo "<thead><tr><th>Username</th><th>Actions</th></tr></thead><tbody>";
+            foreach ($movie["users"] as $user) {
                 echo "<tr>";
-                echo "<td>" . htmlspecialchars($movie["title"]) . "</td>";
-                echo "<td>" . htmlspecialchars($movie["year"]) . "</td>";
-                echo "<td>" . htmlspecialchars($movie["rating"]) . "</td>";
+                echo "<td><a href='view-profile.php?id=" . urlencode($user["user_id"]) . "'>" . htmlspecialchars($user["username"]) . "</a></td>";
                 echo "<td>
-                        <form method='POST' onsubmit='return confirm(\"Remove this movie from the user's watchlist?\");'>
-                            <input type='hidden' name='user_id' value='" . htmlspecialchars($uid) . "' />
+                        <form method='POST' onsubmit='return confirm(\"Remove this user from the movie's watchlist?\");'>
+                            <input type='hidden' name='user_id' value='" . htmlspecialchars($user["user_id"]) . "' />
                             <input type='hidden' name='movie_title' value='" . htmlspecialchars($movie["title"]) . "' />
                             <input type='submit' name='remove_watchlist' value='Remove' />
                         </form>
@@ -93,10 +100,10 @@ try {
             }
             echo "</tbody></table><br>";
         }
-    } else {
-        echo "<p><strong>No watchlist entries found.</strong></p>";
-    }
-    ?>
+        ?>
+    <?php elseif (!empty($movie_title)): ?>
+        <p><strong>No users found with that movie in their watchlist.</strong></p>
+    <?php endif; ?>
 </div>
 
 <?php require(__DIR__ . "/../../partials/flash.php"); ?>
