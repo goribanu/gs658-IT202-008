@@ -17,9 +17,9 @@ require(__DIR__ . "/../../partials/nav.php");
 
     <script>
         function validate(form) {
-            // implement JavaScript validation
-            //ensure it returns false for previously existing movies and true 
-            // if successfully added
+            // implementing JavaScript validation
+            // gs658 - 5/1/25 - ensures it returns false for previously 
+            // existing movies and true if successfully added
             let isValid = true;
             const title = form.title.value;
             const year = form.year.value;
@@ -37,13 +37,13 @@ require(__DIR__ . "/../../partials/nav.php");
     </script>
 </div>
 <?php
-// PHP Code
+// gs658 - 5/1/25 - PHP Code validation
 if (isset($_POST["title"]) && isset($_POST["year"])) {
     $title = se($_POST, "title", "", false); //$_POST["title"];
     $year = se($_POST, "year", "", false); //$_POST["year"];
     $rating = se($_POST, "rating", "", false); //$_POST["rating"];
     $is_api = 0; // 0 for custom form
-    $plot = "";
+    $plot = ""; // empty plot
 
     $hasError = false;
     if (empty($title)) {
@@ -73,7 +73,10 @@ if (isset($_POST["title"]) && isset($_POST["year"])) {
         $results = get($endpoint, $apiKey, $data, $isRapidAPI); // null for key label
     
         error_log("OMDB Response: " . var_export($results, true));
-    
+    /* Handles data transformation, checks if the API call was successful.
+    It decodes JSON string into a PHP associative array using json_decode
+    and safely pulls the "Plot" field, else says not available. This data 
+    is then used to insert into Movies table.*/
         if (se($results, "status", 400, false) == 200 && isset($results["response"])) {
             $results = json_decode($results["response"], true); 
             $is_api = 1;

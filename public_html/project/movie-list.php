@@ -41,7 +41,7 @@ if (isset($_POST["remove_from_watchlist"]) && isset($_POST["movie_id"])) {
 <div class="container-fluid">
     <h1>List of Movies</h1>
 
-    <!-- Filter and Sort Form -->
+    <!-- gs658 - 5/1/25 - Filter and Sort Form, HTML validation -->
     <form method="GET" class="mb-3">
         <label for="title">Title:</label>
         <input type="text" name="title" value="<?= se($_GET, "title", "") ?>" />
@@ -83,7 +83,7 @@ if (isset($_POST["remove_from_watchlist"]) && isset($_POST["movie_id"])) {
     $params = [];
     $query = "SELECT id, title, year, rating FROM Movies WHERE 1=1";
 
-    // Title filter
+    // gs658 - 5/1/25 - Title filter
     $title = trim(se($_GET, "title", "", false));
     if (!empty($title)) {
         $query .= " AND title LIKE :title";
@@ -152,12 +152,12 @@ if (isset($_POST["remove_from_watchlist"]) && isset($_POST["movie_id"])) {
     } catch (Exception $e) {
         flash("Error fetching movies: " . $e->getMessage(), "danger");
     }
-
+    // gs658 - 5/1/25 - Generates movie list
     if (!empty($results)) {
         echo "<table border='1' cellpadding='8'>";
         echo "<tr><th>Title</th><th>Year</th><th>Rating</th><th>Actions</th><th>Watchlist</th></tr>";
         foreach ($results as $movie) {
-            // Generate URLs for View, Edit, and Delete actions
+            // Generates URLs for View, Edit, and Delete actions
             $view_url = "movie-view.php?id=" . $movie["id"];
             $edit_url = "movie-edit.php?id=" . $movie["id"];
             $delete_url = "movie-delete.php?id=" . $movie["id"];
@@ -172,7 +172,7 @@ if (isset($_POST["remove_from_watchlist"]) && isset($_POST["movie_id"])) {
                       <a href='$delete_url' onclick='return confirm(\"Are you sure you want to delete this movie?\")'>Delete</a>";
             }
             echo "</td>";
-            // Check if this movie is already in the user's watchlist
+            // Checks if this movie is already in the user's watchlist
             $in_watchlist = false;
             if (is_logged_in()) {
                 $check_stmt = $db->prepare("SELECT id FROM Watchlist WHERE user_id = :uid AND movie_id = :mid");

@@ -18,7 +18,7 @@ $stmt = $db->prepare($query);
 $stmt->bindValue(':id', $movie_id, PDO::PARAM_INT);
 $stmt->execute();
 $movie = $stmt->fetch(PDO::FETCH_ASSOC);
-
+// checks invalid / missing IDS
 if (!$movie) {
     flash("Movie not found.", "danger");
     redirect("movies_list.php"); // Redirect if movie is not found
